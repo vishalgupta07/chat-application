@@ -91,37 +91,37 @@ public class client_frame extends javax.swing.JFrame
         initComponents();
     }
 
-    private static class SoundReceiver implements Runnable {
+    // private static class SoundReceiver implements Runnable {
 
-           Socket connection = null;
-           DataInputStream soundIn = null;
-           SourceDataLine inSpeaker = null;
+    //        Socket connection = null;
+    //        DataInputStream soundIn = null;
+    //        SourceDataLine inSpeaker = null;
 
-           public SoundReceiver(Socket conn) throws Exception
-           {
-            connection = conn;
-            soundIn = new DataInputStream(connection.getInputStream());
-            AudioFormat af = new AudioFormat(8000.0f,8,1,true,false);
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, af);
-            inSpeaker = (SourceDataLine)AudioSystem.getLine(info);
-            inSpeaker.open(af);
-            }
-@Override
-public void run()
-{
-    int bytesRead = 0;
-    byte[] inSound = new byte[1];
-    inSpeaker.start();
-    while(bytesRead != -1)
-    {
-        try{bytesRead = soundIn.read(inSound, 0, inSound.length);} catch (Exception e){}
-        if(bytesRead >= 0)
-        {
-            inSpeaker.write(inSound, 0, bytesRead);
-        }
-      }
-   }
-    }
+    //        public SoundReceiver(Socket conn) throws Exception
+    //        {
+    //         connection = conn;
+    //         soundIn = new DataInputStream(connection.getInputStream());
+    //         AudioFormat af = new AudioFormat(8000.0f,8,1,true,false);
+    //         DataLine.Info info = new DataLine.Info(SourceDataLine.class, af);
+    //         inSpeaker = (SourceDataLine)AudioSystem.getLine(info);
+    //         inSpeaker.open(af);
+    //         }}
+// @Override
+// public void run()
+// {
+//     int bytesRead = 0;
+//     byte[] inSound = new byte[1];
+//     inSpeaker.start();
+//     while(bytesRead != -1)
+//     {
+//         try{bytesRead = soundIn.read(inSound, 0, inSound.length);} catch (Exception e){}
+//         if(bytesRead >= 0)
+//         {
+//             inSpeaker.write(inSound, 0, bytesRead);
+//         }
+//       }
+//    }
+    
     
     //--------------------------//
 
@@ -374,14 +374,14 @@ public void run()
             }
             
             ListenThread();
-            Thread inThread = null;
-            try {
-                inThread = new Thread(new SoundReceiver(sock));
-            } catch (Exception ex) {
-                Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             inThread.start();
-             System.out.println("in thread working");
+            // Thread inThread = null;
+            // try {
+            //     //inThread = new Thread(new SoundReceiver(sock));
+            // } catch (Exception ex) {
+            //     Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
+            // }
+            //  inThread.start();
+            //  System.out.println("in thread working");
             
         } else if (isConnected == true) 
         {
