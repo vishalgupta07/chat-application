@@ -56,7 +56,7 @@ public class server_frame extends javax.swing.JFrame
             }
         ta_chat.append("transmission over\n");
     	//sockets.remove(connection);
-        }
+        }}
 
 //        private void sendToParticular(byte[] byteArray, int q,String s) throws IOException {
 //            DataOutputStream tempOut = null;
@@ -92,7 +92,7 @@ Iterator<Socket> sockIt = sockets.iterator();
       }
         System.out.println("vhsafcjhSVC");
         }
-    }
+
    
     
    public class ClientHandler implements Runnable	//inner class

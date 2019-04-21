@@ -32,7 +32,7 @@
                   <Component id="jScrollPane1" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="lb_username" pref="62" max="32767" attributes="0"/>
+                          <Component id="lb_username" pref="0" max="32767" attributes="0"/>
                           <Component id="lb_address" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -62,10 +62,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="tf_chat" min="-2" pref="352" max="-2" attributes="0"/>
-                          <Component id="b_voice" min="-2" pref="73" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="tf_chat" min="-2" pref="352" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="tf_target" alignment="1" max="32767" attributes="0"/>
@@ -107,14 +104,8 @@
                   <Component id="b_send" alignment="3" pref="31" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="tf_target" min="-2" pref="27" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="b_voice" max="32767" attributes="0"/>
-                      <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="tf_target" min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -213,14 +204,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_target">
-    </Component>
-    <Component class="javax.swing.JButton" name="b_voice">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Voice"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_voiceActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
