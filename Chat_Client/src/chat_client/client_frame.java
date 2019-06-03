@@ -7,17 +7,23 @@ import java.util.*;
 import java.io.DataOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.*;
 
 public class client_frame extends javax.swing.JFrame 
 {
+    //object of file class
     File myfile;
     String username, address = "localhost";
+
+    //arraylist to contain users
     ArrayList<String> users = new ArrayList();
+
+    //port for socket communication
     int port = 2222;
     Boolean isConnected = false;
     
     Socket sock;
+
+    //for reading and writing messages to the socket
     BufferedReader reader;
     PrintWriter writer;
     
@@ -25,6 +31,7 @@ public class client_frame extends javax.swing.JFrame
     
     public void ListenThread() 
     {
+        //creating an instance of thread that listens to server all the time
          Thread IncomingReader = new Thread(new IncomingReader());
          IncomingReader.start();
     }
@@ -62,10 +69,12 @@ public class client_frame extends javax.swing.JFrame
         String bye = (username + ": :Disconnect");
         try
         {
+            // client writes to the printWriter and flushes it to the SocketOutputStream
             writer.println(bye); 
             writer.flush(); 
         } catch (Exception e) 
         {
+            // can occur due to any reason
             ta_chat.append("Could not send Disconnect message.\n");
         }
     }
@@ -76,6 +85,7 @@ public class client_frame extends javax.swing.JFrame
     {
         try 
         {
+            //closing the socket connection from client end
             ta_chat.append("Disconnected.\n");
             sock.close();
         } catch(Exception ex) {
@@ -88,53 +98,27 @@ public class client_frame extends javax.swing.JFrame
     
     public client_frame() //constructor of client_frame
     {
+        //for gui in java initialisation, we use initComponents();
         initComponents();
     }
 
-    // private static class SoundReceiver implements Runnable {
-
-    //        Socket connection = null;
-    //        DataInputStream soundIn = null;
-    //        SourceDataLine inSpeaker = null;
-
-    //        public SoundReceiver(Socket conn) throws Exception
-    //        {
-    //         connection = conn;
-    //         soundIn = new DataInputStream(connection.getInputStream());
-    //         AudioFormat af = new AudioFormat(8000.0f,8,1,true,false);
-    //         DataLine.Info info = new DataLine.Info(SourceDataLine.class, af);
-    //         inSpeaker = (SourceDataLine)AudioSystem.getLine(info);
-    //         inSpeaker.open(af);
-    //         }}
-// @Override
-// public void run()
-// {
-//     int bytesRead = 0;
-//     byte[] inSound = new byte[1];
-//     inSpeaker.start();
-//     while(bytesRead != -1)
-//     {
-//         try{bytesRead = soundIn.read(inSound, 0, inSound.length);} catch (Exception e){}
-//         if(bytesRead >= 0)
-//         {
-//             inSpeaker.write(inSound, 0, bytesRead);
-//         }
-//       }
-//    }
     
     
-    //--------------------------//
+    //--------------------------// inner class of 'IncomingReader' to actually share the
+    // private instance variables in java
 
-    public class IncomingReader implements Runnable     //inner class to client_frame
+    public class IncomingReader implements Runnable
     {
+        //overriding the methods of Runnable interface
         @Override
-        public void run() //run method for incoming reader class
+        public void run()
         {
-            String[] data;
+            String[] data; // to hold the data of the incoming input
             String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat" ;
 
             try 
             {
+                // reading the value from the socket to the client
                 while ((stream = reader.readLine()) != null) 
                 {
                      data = stream.split(":");
@@ -153,7 +137,7 @@ public class client_frame extends javax.swing.JFrame
                      {
                          userRemove(data[0]);
                      } 
-                     else if (data[2].equals(done)) //never used in the code in use
+                     else if (data[2].equals(done)) //never used in the code : just the developmental idea
                      {
                         //users.setText("");
                         writeUsers();
@@ -341,33 +325,37 @@ public class client_frame extends javax.swing.JFrame
         if (isConnected == false) 
         {
             username = tf_username.getText();
-            tf_username.setEditable(false);//cannot edit the username
+
+            //cannot edit the username now that we have set it
+            tf_username.setEditable(false);
 
             try 
-            {//connection procedure
+            {
+                //connection procedure
                 sock = new Socket(address, port);
+
+                // taking inputStreamReader from the socket plug near the server
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
+
+                // to write to the server
                 writer = new PrintWriter(sock.getOutputStream());
                 writer.println(username + ":has connected.:Connect");
-                writer.flush(); 
-                isConnected = true; //connection established
+                writer.flush();
+
+                // connection established
+                isConnected = true;
             } 
             catch (Exception ex) 
             {
-                ta_chat.append("Cannot Connect! Try Again. \n");//usually comes when the server is not started
+                //usually comes when the server is not started
+                ta_chat.append("Cannot Connect! Try Again. \n");
+
+                // now the name can be edited
                 tf_username.setEditable(true);
             }
             
             ListenThread();
-            // Thread inThread = null;
-            // try {
-            //     //inThread = new Thread(new SoundReceiver(sock));
-            // } catch (Exception ex) {
-            //     Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
-            // }
-            //  inThread.start();
-            //  System.out.println("in thread working");
             
         } else if (isConnected == true) 
         {
@@ -409,7 +397,10 @@ public class client_frame extends javax.swing.JFrame
                 ta_chat.append("Cannot Connect! Try Again. \n");
                 tf_username.setEditable(true);
             }
-            
+
+
+            // this function here starts the listening thread that listens to the server all the time,here only
+            // the listening thread is thread instance formed because sending can be done on our own convience
             ListenThread();
             
         } else if (isConnected == true) 
@@ -426,7 +417,10 @@ public class client_frame extends javax.swing.JFrame
         } else {
             try {
                writer.println(username + ":" + tf_chat.getText() + ":" + "Chat" + ":" + tf_target.getText());
-               writer.flush(); // flushes the buffer again and again because we want to have nothing on writer stream when transmission begins again
+
+               // flushes the buffer again and again because we want to have nothing on
+                // writer stream when transmission begins again
+               writer.flush();
             } catch (Exception ex) {
                 ta_chat.append("Message was not sent. \n");
             }
